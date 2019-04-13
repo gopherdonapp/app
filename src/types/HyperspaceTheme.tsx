@@ -15,7 +15,16 @@ export type HyperspaceTheme = {
 
 export const defaultTheme: HyperspaceTheme = {
     key: "defaultTheme",
-    name: "Hypergod (Default)",
+    name: "Gopher (Default)",
+    palette: {
+        primary: indigo,
+        secondary: amber
+    }
+}
+
+export const hypergodTheme: HyperspaceTheme = {
+    key: "hypergodTheme",
+    name: "Hypergod",
     palette: {
         primary: deepPurple,
         secondary: red
@@ -112,4 +121,4 @@ export const memoriumTheme: HyperspaceTheme = {
     }
 }
 
-export const themes = [defaultTheme, gardenerTheme, teacherTheme, jokerTheme, brotherTheme, guardTheme, scientistTheme, entertainerTheme, kingTheme, dragonTheme, memoriumTheme]
+export const themes = [defaultTheme, hypergodTheme, gardenerTheme, teacherTheme, jokerTheme, brotherTheme, guardTheme, scientistTheme, entertainerTheme, kingTheme, dragonTheme, memoriumTheme]

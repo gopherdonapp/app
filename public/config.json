@@ -1,22 +1,22 @@
 {
     "version": "1.0.0beta1",
     "branding": {
-        "name": "Hyperspace",
-        "logo": "logo.svg",
-        "background": "background.png"
+        "name": "Gopherdon",
+        "logo": "gopher/logo.png",
+        "background": "gopher/Van_Meter_Road_Goucher.jpg"
     },
     "developer": "true",
-    "federated": "true",
+    "federated": "false",
     "registration": {
-        "defaultInstance": "mastodon.social"
+        "defaultInstance": "goldfinch.goucher.edu"
     },
     "admin": {
-        "name": "Hyperspace Developers",
-        "account": "774314"
+        "name": "Marquis Kurt",
+        "account": "367895"
     },
     "license": {
         "name": "Apache 2.0 License",
         "url": "https://www.apache.org/licenses/LICENSE-2.0"
     },
-    "repository": "https://github.com/hyperspacedev/hyperspace"
+    "repository": "https://github.com/gopherdonapp/app"
 }

@@ -9,11 +9,11 @@
     "developer": "true",
     "federated": "false",
     "registration": {
-        "defaultInstance": "gopherdon.goucher.edu"
+        "defaultInstance": "mastodon.goucher.edu"
     },
     "admin": {
         "name": "Marquis Kurt",
-        "account": "367895"
+        "account": "2"
     },
     "license": {
         "name": "Apache 2.0 License",

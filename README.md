@@ -31,7 +31,31 @@ Then, in the app directory, run the following command to install all of the pack
 npm install
 ```
 
+### Pulling changes from upstream (hyperspacedev/hyperspace)
+
+It is recommended that you make these changes to both the `upstream` and `master` branches, accordingly.
+
+Run the following commands to copy the latest Hyperspace code to Gopherdon in `upstream`:
+
+```bash
+git fetch upstream
+git checkout upstream
+git merge upstream/master
+```
+
+If any conflicts arise, check the files and review the changes before fully merging. After merging, make a pull request to the `master` branch to apply the upstream changes.
+
+> Note: Do **not** delete the upstream branch. This is necesary to get changes from Hyperspace and to submit new changes to Hyperspace itself.
+
 ### Testing changes
+
+Before testing Gopherdon, make the following change in `config.json`:
+
+```json
+    "location": "https://localhost:3000"
+```
+
+This is necessary to test Gopherdon locally and will need to be reverted after testing or before releasing to `master`/`release`.
 
 To run a development version of Gopherdon, either run the `start` task from VS Code or run the following in the terminal:
 
@@ -39,7 +63,7 @@ To run a development version of Gopherdon, either run the `start` task from VS C
 npm start
 ```
 
-The site will be hosted at https://localhost:3000, where you can sign in and test Gopherdon.
+The site will be hosted at https&#58;//localhost:3000, where you can sign in and test Gopherdon.
 
 ### Building a release
 

@@ -175,21 +175,7 @@ class WelcomePage extends Component<IWelcomeProps, IWelcomeState> {
         console.log("Creating an emergency login...")
         const scopes = "read write follow";
         const baseurl = localStorage.getItem('baseurl') || this.getLoginUser(this.state.user);
-        // createHyperspaceApp(scopes, baseurl, "urn:ietf:wg:oauth:2.0:oob").then((resp: any) => {
-        //     let saveSessionForCrashing: SaveClientSession = {
-        //         clientId: resp.clientId,
-        //         clientSecret: resp.clientSecret,
-        //         authUrl: resp.url,
-        //         emergency: true
-        //     };
-        //     localStorage.setItem("login", JSON.stringify(saveSessionForCrashing));
-        //     this.setState({
-        //         clientId: resp.clientId,
-        //         clientSecret: resp.clientSecret,
-        //         authUrl: resp.url
-        //     });
-        // })
-        Mastodon.registerApp('Gopherdon', {
+        Mastodon.registerApp(this.state.brandName? this.state.brandName: "Gopherdon", {
             scopes: scopes
         }, baseurl).then((appData: any) => {
             let saveSessionForCrashing: SaveClientSession = {

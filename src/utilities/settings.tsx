@@ -91,11 +91,11 @@ export function setUserDefaultTheme(themeName: string) {
 export function createUserDefaults() {
     let defaults: SettingsTemplate = {
         darkModeEnabled: false,
-        systemDecidesDarkMode: true,
+        systemDecidesDarkMode: false,
         enablePushNotifications: true,
         clearNotificationsOnRead: false,
         displayAllOnNotificationBadge: false,
-        defaultVisibility: "public"
+        defaultVisibility: "unlisted"
     }
 
     let settings = ["darkModeEnabled", "systemDecidesDarkMode", "clearNotificationsOnRead", "displayAllOnNotificationBadge", "defaultVisibility"];

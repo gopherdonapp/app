@@ -14,7 +14,7 @@ Changes that overall benefit Hyperspace will be made upstream, and Gopherdon wil
 
 To develop Gopherdon, you'll need the following tools and packages:
 
-* Node.js 6 or later
+* Node.js 8 or later
 * (Optional) Visual Studio Code
 
 ### Installing dependencies
@@ -63,7 +63,7 @@ To run a development version of Gopherdon, either run the `start` task from VS C
 npm start
 ```
 
-The site will be hosted at https&#58;//localhost:3000, where you can sign in and test Gopherdon.
+The site will be hosted at `https://localhost:3000`, where you can sign in and test Gopherdon.
 
 ### Building a release
 

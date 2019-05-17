@@ -10,7 +10,7 @@ interface ElectronWindow extends Window {
  * @returns Boolean of whether it is in desktop mode or not
  */
 export function isDesktopApp(): boolean {
-    return navigator.userAgent.includes("Hyperspace" || "Electron");
+    return navigator.userAgent.includes("Gopherdon" || "Hyperspace" || "Electron");
 }
 
 /**

@@ -1,13 +1,17 @@
 {
-    "version": "1.0.0beta3",
+    "version": "1.0.0beta4",
     "location": "https://gopherdonapp-next.herokuapp.com",
     "branding": {
         "name": "Gopherdon",
         "logo": "gopher/glogo.svg",
         "background": "gopher/IMG_1679.jpg"
     },
-    "developer": "true",
-    "federated": "false",
+    "developer": true,
+    "federation": {
+        "universalLogin": false,
+        "allowPublicPosts": true,
+        "enablePublicTimeline": false
+    },
     "registration": {
         "defaultInstance": "mastodon.goucher.edu"
     },

@@ -62,3 +62,11 @@ typings/
 
 # VSCode dirs
 .vscode/
+
+# Production dirs
+build/
+dist/
+
+# Electron app files
+desktop/*.plist
+desktop/*.provisionprofile

@@ -1,21 +1,16 @@
-# Gopherdon App
+# Hyperspace v1.0
 
-A beautiful client for the Gopherdon network, built from Hyperspace
+The new beautiful, fluffy client for the fediverse written in TypeScript and React
 
 ![Screenshot](screenshot.png)
 
-The Gopherdon apps are the official means of accessing the Gopherdon network at Goucher College. Built from [Hyperspace](https://github.com/hyperspacedev/hyperspace), it aims to provide a beautiful and easy-to-use interface for any Mastodon instance, including Gopherdon.
+[![Matrix room](https://img.shields.io/matrix/hypermasto:matrix.org.svg)](https://matrix.to/#/#hypermasto:matrix.org)
+[![Discord server](https://img.shields.io/discord/554108687434907660.svg?color=blueviolet&label=discord)](https://discord.gg/c69AXwk)
+[![Build Status](https://dev.azure.com/hyperspacedev/Hyperspace/_apis/build/status/CI%20Tests?branchName=master)](https://dev.azure.com/hyperspacedev/Hyperspace/_build/latest?definitionId=1&branchName=master)
 
-> Note: If you are looking for the current **stable** release of Hyperspace, please look at [hyperspace-classic](https://github.com/hyperspacedev/hyperspace-classic).
+Hyperspace is the fluffiest client for Mastodon and other fediverse networks written in TypeScript and React. Hyperspace offers a fun, clean, fast, and responsive design that scales beautifully across devices and enhances the fediverse experience.
 
-### Prerequisites
-
-To develop Gopherdon, you'll need the following tools and packages:
-
-* Node.js 6 or later
-* (Optional) Visual Studio Code
-
-This is a growing list and new things will be added over time.
+> Note: For more information on how Hyperspace 1.0 is different from the *Hyperspace Classic (0.x)* series, please see [MIGRATING.md](MIGRATING.md).
 
 ## Build instrictions
 
@@ -50,6 +45,8 @@ Before testing Hyperspace, make the following change in `config.json`, located i
 
 This is necessary to test Hyperspace locally and will need to be reverted after testing or before releasing to `master`.
 
+> Note: if you are testing the **desktop** version of Hyperspace, replace `https://localhost:3000` with `desktop`.
+
 To run a development version of Hyperspace, either run the `start` task from VS Code or run the following in the terminal:
 
 ```npm
@@ -57,6 +54,8 @@ npm start
 ```
 
 The site will be hosted at `https://localhost:3000`, where you can sign in and test Hyperspace using your Mastodon account. If you have signed in before, you will be automatically logged in.
+
+Alternatively, if you are testing the desktop version of Hyperspace, run `npm run electrify` (or `npm run electrify`, if you don't want to make another production build). Hyperspace will open in a window where you can sign in and test Hyperspace with your Mastodon account. You'll be logged in automatically if you've signed in before.
 
 ### Building a release
 
@@ -67,6 +66,22 @@ npm build
 ```
 
 The built files will be available under `build` as static files. These files should get hosted to a web server.
+
+#### Building desktop releases
+
+You can run any of the following commands to build a release for the desktop:
+
+- `build-desktop`: Builds the desktop apps for all platforms (eg. Windows, macOS, Linux). Will run `npm run build` before building.
+- `build-desktop-win`: Builds the desktop app for Windows without running `npm run build`.
+- `build-desktop-darwin`: Builds the desktop apps for macOS (eg. disk image, Mac App Store) without running `npm run build`.
+- `build-desktop-linux`: Builds the desktop apps for Linux (eg. Debian package, AppImage, and Snap) without running `npm run build`.
+- `build-desktop-linux-select`: Builds the desktop app for Linux without running `npm run build`. _Target is required as a parameter._
+
+> Note: If you are building the macOS version of Hyperspace, add your provisioning profiles and entitlements files in the `desktop` folder and ensure you have installed your developer certificates on your machine before running `build-desktop` or `build-desktop-darwin`.
+>
+> While the command will run without needing the signature, it is recommended that you make a signed copy to protect users.
+
+The built files will be available under `dist` that can be uploaded to your app distributor or website.
 
 ## Contribute
 

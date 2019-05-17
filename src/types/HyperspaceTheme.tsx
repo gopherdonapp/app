@@ -1,5 +1,6 @@
 import {Color} from '@material-ui/core';
 import { deepPurple, red, lightGreen, yellow, purple, deepOrange, indigo, lightBlue, orange, blue, amber, pink, brown, blueGrey } from '@material-ui/core/colors';
+import { isDarwinApp } from '../utilities/desktop';
 
 /**
  * Basic theme colors for Hyperspace.
@@ -19,16 +20,7 @@ export type HyperspaceTheme = {
 
 export const defaultTheme: HyperspaceTheme = {
     key: "defaultTheme",
-    name: "Gopher (Default)",
-    palette: {
-        primary: indigo,
-        secondary: amber
-    }
-}
-
-export const hypergodTheme: HyperspaceTheme = {
-    key: "hypergodTheme",
-    name: "Royal",
+    name: "Royal (Default)",
     palette: {
         primary: deepPurple,
         secondary: red
@@ -135,4 +127,4 @@ export const attractTheme: HyperspaceTheme = {
     }
 }
 
-export const themes = [defaultTheme, hypergodTheme, gardenerTheme, teacherTheme, jokerTheme, guardTheme, entertainerTheme, classicTheme, dragonTheme, memoriumTheme, blissTheme, attractTheme]
+export const themes = [defaultTheme, gardenerTheme, teacherTheme, jokerTheme, guardTheme, entertainerTheme, classicTheme, dragonTheme, memoriumTheme, blissTheme, attractTheme]

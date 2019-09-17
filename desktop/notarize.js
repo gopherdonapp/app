@@ -15,12 +15,12 @@ exports.default = async function notarizing(context) {
     return;
   }
 
-  console.log("Notarizing Hyperspace...");
+  console.log("Notarizing Gopherdon...");
 
   const appName = context.packager.appInfo.productFilename;
 
   return await notarize({
-    appBundleId: 'net.marquiskurt.hyperspace',
+    appBundleId: 'net.marquiskurt.gopherdon',
     appPath: `${appOutDir}/${appName}.app`,
     appleId: "appleseed@marquiskurt.net",
     appleIdPassword: password,

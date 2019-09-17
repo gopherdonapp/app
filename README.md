@@ -2,7 +2,7 @@
 
 A beautiful client for the Gopherdon network, built from Hyperspace
 
-![Screenshot](screenshot.png)
+![Screenshot](gopherdon.png)
 
 The Gopherdon apps are the official means of accessing the Gopherdon network at Goucher College. Built from [Hyperspace](https://github.com/hyperspacedev/hyperspace), it aims to provide a beautiful and easy-to-use interface for any Mastodon instance, including Gopherdon.
 
@@ -92,6 +92,11 @@ You can run any of the following commands to build a release for the desktop:
 > Note: If you are building the macOS version of Gopherdon, add your provisioning profiles and entitlements files in the `desktop` folder and ensure you have installed your developer certificates on your machine before running `build-desktop` or `build-desktop-darwin`.
 >
 > While the command will run without needing the signature, it is recommended that you make a signed copy to protect users.
+>
+
+> ⚠️ **Notarization**: If you are building the macOS version of Hyperspace, you will also need to set up notarization processes. Hyperspace will _not_ run on devices running macOS Catalina or later without this notarization; please ensure you have the correct certificates and updated notarization scripts in `desktop/notarize.js`.
+> 
+> When building, the script will aotumatically notarize the app for you after signing it.
 
 The built files will be available under `dist` that can be uploaded to your app distributor or website.
 

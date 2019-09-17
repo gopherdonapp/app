@@ -1,12 +1,12 @@
 {
     "version": "1.0.0beta6",
-    "location": "https://gopherdonapp-next.herokuapp.com",
+    "location": "desktop",
     "branding": {
         "name": "Gopherdon",
         "logo": "gopher/glogo.svg",
         "background": "gopher/IMG_1679.jpg"
     },
-    "developer": true,
+    "developer": false,
     "federation": {
         "universalLogin": false,
         "allowPublicPosts": true,

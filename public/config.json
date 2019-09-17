@@ -1,27 +1,27 @@
 {
     "version": "1.0.0beta6",
-    "location": "https://hyperspaceapp-next.herokuapp.com",
+    "location": "https://gopherdonapp-next.herokuapp.com",
     "branding": {
-        "name": "Hyperspace",
-        "logo": "logo.svg",
-        "background": "background.png"
+        "name": "Gopherdon",
+        "logo": "gopher/glogo.svg",
+        "background": "gopher/IMG_1679.jpg"
     },
-    "developer": true,
+    "developer": false,
     "federation": {
-        "universalLogin": true,
+        "universalLogin": false,
         "allowPublicPosts": true,
-        "enablePublicTimeline": true
+        "enablePublicTimeline": false
     },
     "registration": {
-        "defaultInstance": "mastodon.social"
+        "defaultInstance": "mastodon.goucher.edu"
     },
     "admin": {
-        "name": "Hyperspace Developers",
-        "account": "774314"
+        "name": "Marquis Kurt",
+        "account": "2"
     },
     "license": {
         "name": "Apache 2.0 License",
         "url": "https://www.apache.org/licenses/LICENSE-2.0"
     },
-    "repository": "https://github.com/hyperspacedev/hyperspace"
+    "repository": "https://github.com/gopherdonapp/app"
 }

@@ -8,7 +8,7 @@ The Gopherdon apps are the official means of accessing the Gopherdon network at 
 
 Changes that overall benefit Hyperspace will be made upstream, and Gopherdon will be in-sync with upstream changes from Hyperspace.
 
-## Build instrictions
+## Build instructions
 
 ### Prerequisites
 

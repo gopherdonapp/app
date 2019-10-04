@@ -1,6 +1,6 @@
 {
-    "version": "1.0.0beta6",
-    "location": "desktop",
+    "version": "1.0.0beta7",
+    "location": "https://gopherdonapp-next.herokuapp.com",
     "branding": {
         "name": "Gopherdon",
         "logo": "gopher/glogo.svg",
@@ -20,8 +20,8 @@
         "account": "2"
     },
     "license": {
-        "name": "Apache 2.0 License",
-        "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        "name": "Non-violent Public License",
+        "url": "https://thufie.lain.haus/NPL.html"
     },
     "repository": "https://github.com/gopherdonapp/app"
 }

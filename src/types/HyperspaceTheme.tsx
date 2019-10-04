@@ -9,7 +9,8 @@ import {
     indigo,
     lightBlue,
     blue,
-    pink
+    pink,
+    amber
 } from "@material-ui/core/colors";
 import {
     isDarkMode,

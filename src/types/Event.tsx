@@ -8,5 +8,14 @@ export type Event = {
         photo_url: string;
         localist_url: string;
         location_name: string;
+        updated_at: string;
+        event_instances: EventInstace[];
+    };
+};
+
+export type EventInstace = {
+    event_instance: {
+        start: string;
+        end: string;
     };
 };

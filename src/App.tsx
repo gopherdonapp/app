@@ -17,6 +17,7 @@ import SearchPage from "./pages/Search";
 import Composer from "./pages/Compose";
 import WelcomePage from "./pages/Welcome";
 import MessagesPage from "./pages/Messages";
+import EventsPage from "./pages/Events";
 import RecommendationsPage from "./pages/Recommendations";
 import Missingno from "./pages/Missingno";
 import Blocked from "./pages/Blocked";
@@ -123,6 +124,7 @@ class App extends Component<any, IAppState> {
                         path="/recommended"
                         component={RecommendationsPage}
                     />
+                    <PrivateRoute path="/events" component={EventsPage} />
                 </div>
             </MuiThemeProvider>
         );

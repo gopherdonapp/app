@@ -41,6 +41,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import CreateIcon from "@material-ui/icons/Create";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { styles } from "./AppLayout.styles";
 import { MultiAccount, UAccount } from "../../types/Account";
 import {
@@ -432,6 +433,12 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                         <Divider />
                     </div>
                     <ListSubheader>More</ListSubheader>
+                    <LinkableListItem key="events" to="events" button>
+                        <ListItemIcon>
+                            <CalendarTodayIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Events"/>
+                    </LinkableListItem>
                     <LinkableListItem
                         button
                         key="recommended"

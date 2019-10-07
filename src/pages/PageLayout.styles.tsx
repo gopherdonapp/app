@@ -300,5 +300,13 @@ export const styles = (theme: Theme) =>
         },
         pageGrow: {
             flexGrow: 1
+        },
+        eventCard: {
+            height: "100%",
+            display: "flex",
+            flexDirection: "column"
+        },
+        eventMedia: {
+            height: 225
         }
     });

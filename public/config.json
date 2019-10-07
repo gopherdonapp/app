@@ -1,10 +1,10 @@
 {
-    "version": "1.0.0beta7",
+    "version": "1.0.0beta7u1",
     "location": "https://gopherdonapp-next.herokuapp.com",
     "branding": {
         "name": "Gopherdon",
         "logo": "gopher/glogo.svg",
-        "background": "gopher/IMG_1679.jpg"
+        "background": "gopher/Van_Meter_Road_Goucher.jpg"
     },
     "developer": false,
     "federation": {

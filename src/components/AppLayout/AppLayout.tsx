@@ -435,9 +435,9 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                     <ListSubheader>More</ListSubheader>
                     <LinkableListItem key="events" to="events" button>
                         <ListItemIcon>
-                            <CalendarTodayIcon/>
+                            <CalendarTodayIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Events"/>
+                        <ListItemText primary="Events" />
                     </LinkableListItem>
                     <LinkableListItem
                         button

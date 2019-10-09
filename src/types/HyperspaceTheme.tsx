@@ -45,7 +45,7 @@ export const defaultTheme: HyperspaceTheme = {
         primary: indigo,
         secondary: amber
     }
-}
+};
 
 export const hypergodTheme: HyperspaceTheme = {
     key: "hypergodTheme",

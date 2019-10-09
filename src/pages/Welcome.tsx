@@ -290,7 +290,7 @@ class WelcomePage extends Component<IWelcomeProps, IWelcomeState> {
             localStorage.getItem("baseurl") ||
             this.getLoginUser(this.state.user);
         Mastodon.registerApp(
-            this.state.brandName ? this.state.brandName: "Gopherdon",
+            this.state.brandName ? this.state.brandName : "Gopherdon",
             {
                 scopes: scopes
             },

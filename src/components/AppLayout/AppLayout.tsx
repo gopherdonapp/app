@@ -236,7 +236,6 @@ export class AppLayout extends Component<any, IAppLayoutState> {
         window.location.href = isDesktopApp()
             ? "hyperspace://hyperspace/app/index.html#/search?query=" + what
             : "/#/search?query=" + what;
-        window.location.reload();
     }
 
     logOutAndRestart() {
@@ -574,6 +573,7 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                                     >
                                         <div>
                                             <LinkableListItem
+                                                button={true}
                                                 to={`/profile/${
                                                     this.state.currentUser
                                                         ? this.state.currentUser
@@ -616,12 +616,18 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                                                 />
                                             </LinkableListItem>
                                             <Divider />
-                                            <LinkableListItem to={"/you"}>
+                                            <LinkableListItem
+                                                button={true}
+                                                to={"/you"}
+                                            >
                                                 <ListItemText>
                                                     Edit profile
                                                 </ListItemText>
                                             </LinkableListItem>
-                                            <LinkableListItem to={"/welcome"}>
+                                            <LinkableListItem
+                                                to={"/welcome"}
+                                                button={true}
+                                            >
                                                 <ListItemText>
                                                     {getAccountRegistry()
                                                         .length > 1

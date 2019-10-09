@@ -132,30 +132,6 @@ export const memoriumTheme: HyperspaceTheme = {
     }
 };
 
-export const blissTheme: HyperspaceTheme = {
-    key: "blissTheme",
-    name: "Bliss",
-    palette: {
-        primary: {
-            main: "#3e2723"
-        },
-        secondary: lightBlue
-    }
-};
-
-export const attractTheme: HyperspaceTheme = {
-    key: "attractTheme",
-    name: "Attract",
-    palette: {
-        primary: {
-            main: "#E57373"
-        },
-        secondary: {
-            main: "#78909C"
-        }
-    }
-};
-
 export const themes = [
     defaultTheme,
     hypergodTheme,
@@ -166,9 +142,7 @@ export const themes = [
     entertainerTheme,
     classicTheme,
     dragonTheme,
-    memoriumTheme,
-    blissTheme,
-    attractTheme
+    memoriumTheme
 ];
 
 /**

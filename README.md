@@ -104,6 +104,18 @@ Make sure you have your provisioning profiles for the Mac App Store (`embedded.p
 - `com.apple.security.allow-unsigned-executable-memory`
 - `com.apple.security.network.client`
 
+For the child ones (inherited `entitlements.mas.inherit.plist`):
+
+- `com.apple.security.app-sandbox`
+- `com.apple.security.inherit`
+- `com.apple.security.files.downloads.read-write`
+- `com.apple.security.files.user-selected.read-write`
+- `com.apple.security.allow-unsigned-executable-memory`
+- `com.apple.security.network.client`
+
+> ⚠️ Note that the inherited permissions are the same as that of the parent. This is due to an issue where the hardened runtime fails to pass down the inherited properties (see [electron/electron#20560](https://github.com/electron/electron/issues/20560#issuecomment-546110018)). This might change in future versions of macOS.
+
+
 It is also recommended to add the `com.apple.security.applications-groups` entry with your bundle's identifier. You'll also need to create an `info.plist` in the `desktop` directory containing the team identifier and application identifier and install the developer certificates on the Mac you plan to build from.
 
 You'll also want to modify the `notarize.js` file to change the details from the default to your App Store Connect account details and app identifier. 
@@ -120,4 +132,4 @@ Hyperspace has been made possible by the React, TypeScript, Megalodon, and Mater
 
 Contrubition guidelines are available in the [contributing file](.github/contributing.md) and when you make an issue/pull request. Additionally, you can access our [Code of Conduct](.github/code_of_conduct.md).
 
-If you want to aid the project in other ways, consider supporting the project on [Patreon](https://patreon.com/marquiskurt). 
+If you want to aid the project in other ways, consider supporting the project on [Patreon](https://patreon.com/hyperspacedev). 

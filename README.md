@@ -83,26 +83,49 @@ If you are aiming to make an update to the official Gopherdon site, just push yo
 
 You can run any of the following commands to build a release for the desktop:
 
-- `build-desktop`: Builds the desktop apps for all platforms (eg. Windows, macOS, Linux). Will run `npm run build` before building.
-- `build-desktop-win`: Builds the desktop app for Windows without running `npm run build`.
-- `build-desktop-darwin`: Builds the desktop apps for macOS (eg. disk image, Mac App Store) without running `npm run build`.
-- `build-desktop-linux`: Builds the desktop apps for Linux (eg. Debian package, AppImage, and Snap) without running `npm run build`.
-- `build-desktop-linux-select`: Builds the desktop app for Linux without running `npm run build`. _Target is required as a parameter._
-
-> Note: If you are building the macOS version of Gopherdon, add your provisioning profiles and entitlements files in the `desktop` folder and ensure you have installed your developer certificates on your machine before running `build-desktop` or `build-desktop-darwin`.
->
-> While the command will run without needing the signature, it is recommended that you make a signed copy to protect users.
->
-
-> ⚠️ **Notarization**: If you are building the macOS version of Hyperspace, you will also need to set up notarization processes. Hyperspace will _not_ run on devices running macOS Catalina or later without this notarization; please ensure you have the correct certificates and updated notarization scripts in `desktop/notarize.js`.
-> 
-> When building, the script will aotumatically notarize the app for you after signing it.
+- `npm run build-desktop`: Builds the desktop apps for all platforms (eg. Windows, macOS, Linux). Will run `npm run build` before building.
+- `npm run build-desktop-win`: Builds the desktop app for Windows without running `npm run build`.
+- `npm run build-desktop-darwin`: Builds the desktop apps for macOS (eg. disk image, Mac App Store) without running `npm run build`. See the details below for more information on building for macOS.
+- `npm run build-desktop-linux`: Builds the desktop apps for Linux (eg. Debian package, AppImage, and Snap) without running `npm run build`.
+- `npm run build-desktop-linux-select`: Builds the desktop app for Linux without running `npm run build`. _Target is required as a parameter._
 
 The built files will be available under `dist` that can be uploaded to your app distributor or website.
 
-## Contribute
+#### Building for macOS
 
-Contrubition guidelines are available in the [contributing file](.github/contributing.md) and when you make an issue/pull request. Additionally, you can access our [Code of Conduct](.github/code_of_conduct.md).
+More recent version of macOS require that the Gopherdon desktop app be both digitally code-signed and notarized (uploaded to Apple to check for malware). Gopherdon includes the tools necessary to automate this process when building the macOS version either by `npm run build-desktop` or by `npm run build-desktop-darwin`.
+
+Make sure you have your provisioning profiles for the Mac App Store (`embedded.provisionprofile`) and standard distribution (`nonmas.provisionprofile`) in the `desktop` directory. These provision profiles can be obtained through Apple Developer. You'll also need to create entitlements files in the `desktop` directory that list the following entitlements for your app:
+
+- `com.apple.security.app-sandbox`
+- `com.apple.security.files.downloads.read-write`
+- `com.apple.security.files.user-selected.read-write`
+- `com.apple.security.allow-unsigned-executable-memory`
+- `com.apple.security.network.client`
+
+For the child ones (inherited `entitlements.mas.inherit.plist`):
+
+- `com.apple.security.app-sandbox`
+- `com.apple.security.inherit`
+- `com.apple.security.files.downloads.read-write`
+- `com.apple.security.files.user-selected.read-write`
+- `com.apple.security.allow-unsigned-executable-memory`
+- `com.apple.security.network.client`
+
+> ⚠️ Note that the inherited permissions are the same as that of the parent. This is due to an issue where the hardened runtime fails to pass down the inherited properties (see [electron/electron#20560](https://github.com/electron/electron/issues/20560#issuecomment-546110018)). This might change in future versions of macOS.
+
+
+It is also recommended to add the `com.apple.security.applications-groups` entry with your bundle's identifier. You'll also need to create an `info.plist` in the `desktop` directory containing the team identifier and application identifier and install the developer certificates on the Mac you plan to build from.
+
+You'll also want to modify the `notarize.js` file to change the details from the default to your App Store Connect account details and app identifier. 
+
+> ⚠️ **Warning**: The package.json file also includes the `build-desktop-darwin-nosign` script. This script is specifically intended for automated systems that cannot run notarization (Azure Pipelines, GitHub Actions, etc.). _Do not use this command to build production-ready versions of Hyperspace_.
+
+## Licensing and Credits
+
+Gopherdon is licensed under the [Non-violent Public License](LICENSE), a permissive license under the conditions that you do not use this for any unethical purposes and to file patent claims. Please read what your rights are as a Gopherdon user/developer in the license for more information.
+
+Gopherdon has been made possible by the React, TypeScript, Megalodon, and Material-UI projects and our contributors on GitHub.
 
 ## Contributing
 

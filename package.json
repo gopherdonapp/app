@@ -1,7 +1,7 @@
 {
   "name": "gopherdon",
   "productName": "Gopherdon",
-  "version": "1.0.0-gm",
+  "version": "1.0.2-gm",
   "description": "The future of social networking at Goucher",
   "author": "Gopherdon Developers <gopherdondevs@goucher.edu>",
   "repository": "https://github.com/gopherdonapp/app.git",
@@ -87,6 +87,7 @@
     },
     "mas": {
       "entitlements": "desktop/entitlements.mas.plist",
+      "entitlementsInherit": "desktop/entitlements.mas.inherit.plist",
       "provisioningProfile": "desktop/embedded.provisionprofile"
     },
     "dmg": {

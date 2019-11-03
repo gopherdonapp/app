@@ -193,6 +193,16 @@ class EventsPage extends Component<any, IEventsState> {
                 ) : (
                     <span />
                 )}
+                {this.state.viewLoading ? (
+                  <div style={{ textAlign: "center" }}>
+                      <CircularProgress
+                        className={classes.progress}
+                        color="primary"
+                      />
+                  </div>
+                ) : (
+                  <span />
+                )}
                 <br />
                 <Typography variant={"caption"}>
                     Event information is pulled from events.goucher.edu and
@@ -211,16 +221,6 @@ class EventsPage extends Component<any, IEventsState> {
                         Find more events
                     </Button>
                 </div>
-                {this.state.viewLoading ? (
-                    <div style={{ textAlign: "center" }}>
-                        <CircularProgress
-                            className={classes.progress}
-                            color="primary"
-                        />
-                    </div>
-                ) : (
-                    <span />
-                )}
             </div>
         );
     }

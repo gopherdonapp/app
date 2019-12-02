@@ -83,11 +83,11 @@ If you are aiming to make an update to the official Gopherdon site, just push yo
 
 You can run any of the following commands to build a release for the desktop:
 
-- `npm run build-desktop`: Builds the desktop apps for all platforms (eg. Windows, macOS, Linux). Will run `npm run build` before building.
-- `npm run build-desktop-win`: Builds the desktop app for Windows without running `npm run build`.
-- `npm run build-desktop-darwin`: Builds the desktop apps for macOS (eg. disk image, Mac App Store) without running `npm run build`. See the details below for more information on building for macOS.
-- `npm run build-desktop-linux`: Builds the desktop apps for Linux (eg. Debian package, AppImage, and Snap) without running `npm run build`.
-- `npm run build-desktop-linux-select`: Builds the desktop app for Linux without running `npm run build`. _Target is required as a parameter._
+-   `npm run build-desktop`: Builds the desktop apps for all platforms (eg. Windows, macOS, Linux). Will run `npm run build` before building.
+-   `npm run build-desktop-win`: Builds the desktop app for Windows without running `npm run build`.
+-   `npm run build-desktop-darwin`: Builds the desktop apps for macOS (eg. disk image, Mac App Store) without running `npm run build`. See the details below for more information on building for macOS.
+-   `npm run build-desktop-linux`: Builds the desktop apps for Linux (eg. Debian package, AppImage, and Snap) without running `npm run build`.
+-   `npm run build-desktop-linux-select`: Builds the desktop app for Linux without running `npm run build`. _Target is required as a parameter._
 
 The built files will be available under `dist` that can be uploaded to your app distributor or website.
 
@@ -97,27 +97,26 @@ More recent version of macOS require that the Gopherdon desktop app be both digi
 
 Make sure you have your provisioning profiles for the Mac App Store (`embedded.provisionprofile`) and standard distribution (`nonmas.provisionprofile`) in the `desktop` directory. These provision profiles can be obtained through Apple Developer. You'll also need to create entitlements files in the `desktop` directory that list the following entitlements for your app:
 
-- `com.apple.security.app-sandbox`
-- `com.apple.security.files.downloads.read-write`
-- `com.apple.security.files.user-selected.read-write`
-- `com.apple.security.allow-unsigned-executable-memory`
-- `com.apple.security.network.client`
+-   `com.apple.security.app-sandbox`
+-   `com.apple.security.files.downloads.read-write`
+-   `com.apple.security.files.user-selected.read-write`
+-   `com.apple.security.allow-unsigned-executable-memory`
+-   `com.apple.security.network.client`
 
 For the child ones (inherited `entitlements.mas.inherit.plist`):
 
-- `com.apple.security.app-sandbox`
-- `com.apple.security.inherit`
-- `com.apple.security.files.downloads.read-write`
-- `com.apple.security.files.user-selected.read-write`
-- `com.apple.security.allow-unsigned-executable-memory`
-- `com.apple.security.network.client`
+-   `com.apple.security.app-sandbox`
+-   `com.apple.security.inherit`
+-   `com.apple.security.files.downloads.read-write`
+-   `com.apple.security.files.user-selected.read-write`
+-   `com.apple.security.allow-unsigned-executable-memory`
+-   `com.apple.security.network.client`
 
 > ⚠️ Note that the inherited permissions are the same as that of the parent. This is due to an issue where the hardened runtime fails to pass down the inherited properties (see [electron/electron#20560](https://github.com/electron/electron/issues/20560#issuecomment-546110018)). This might change in future versions of macOS.
 
-
 It is also recommended to add the `com.apple.security.applications-groups` entry with your bundle's identifier. You'll also need to create an `info.plist` in the `desktop` directory containing the team identifier and application identifier and install the developer certificates on the Mac you plan to build from.
 
-You'll also want to modify the `notarize.js` file to change the details from the default to your App Store Connect account details and app identifier. 
+You'll also want to modify the `notarize.js` file to change the details from the default to your App Store Connect account details and app identifier.
 
 > ⚠️ **Warning**: The package.json file also includes the `build-desktop-darwin-nosign` script. This script is specifically intended for automated systems that cannot run notarization (Azure Pipelines, GitHub Actions, etc.). _Do not use this command to build production-ready versions of Hyperspace_.
 
@@ -126,6 +125,8 @@ You'll also want to modify the `notarize.js` file to change the details from the
 Gopherdon is licensed under the [Non-violent Public License](LICENSE), a permissive license under the conditions that you do not use this for any unethical purposes and to file patent claims. Please read what your rights are as a Gopherdon user/developer in the license for more information.
 
 Gopherdon has been made possible by the React, TypeScript, Megalodon, and Material-UI projects and our contributors on GitHub.
+
+The Gopher icon used for Gopherdon is registered property of Goucher College.
 
 ## Contributing
 

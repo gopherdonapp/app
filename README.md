@@ -1,4 +1,4 @@
-# Gopherdon App
+![Gopherdon Beta](./public/gopher/glogo.svg)
 
 A beautiful client for the Gopherdon network, built from Hyperspace
 

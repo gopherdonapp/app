@@ -1,12 +1,12 @@
 {
-    "version": "1.0.4",
+    "version": "1.1.0",
     "location": "https://gopherdonapp-next.herokuapp.com",
     "branding": {
         "name": "Gopherdon",
         "logo": "gopher/glogo.svg",
         "background": "gopher/Van_Meter_Road_Goucher.jpg"
     },
-    "developer": false,
+    "developer": true,
     "federation": {
         "universalLogin": false,
         "allowPublicPosts": true,

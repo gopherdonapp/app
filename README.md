@@ -122,7 +122,7 @@ You'll also want to modify the `notarize.js` file to change the details from the
 
 ## Licensing and Credits
 
-Gopherdon is licensed under the [Non-violent Public License](LICENSE), a permissive license under the conditions that you do not use this for any unethical purposes and to file patent claims. Please read what your rights are as a Gopherdon user/developer in the license for more information.
+Gopherdon is licensed under the [Non-violent Public License v4+](LICENSE.txt), a permissive license under the conditions that you do not use this for any unethical purposes and to file patent claims. Please read what your rights are as a Gopherdon user/developer in the license for more information.
 
 Gopherdon has been made possible by the React, TypeScript, Megalodon, and Material-UI projects and our contributors on GitHub.
 

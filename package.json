@@ -1,7 +1,7 @@
 {
     "name": "gopherdon",
     "productName": "Gopherdon",
-    "version": "1.1.0-beta3",
+    "version": "1.1.0-beta4",
     "description": "The future of social networking at Goucher",
     "author": "Gopherdon Developers <gopherdondevs@goucher.edu>",
     "repository": "https://github.com/gopherdonapp/app.git",

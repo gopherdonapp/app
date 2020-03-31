@@ -67,7 +67,7 @@ class EventsPage extends Component<any, IEventsState> {
                 event.event.event_instances[0].event_instance.start
             ).calendar();
         } else {
-            `${moment(event.event.first_date).format("MMMM Do")} - ${moment(
+            return `${moment(event.event.first_date).format("MMMM Do")} - ${moment(
                 event.event.last_date
             ).format("MMMM Do")}`;
         }

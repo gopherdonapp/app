@@ -14,8 +14,7 @@ Changes that overall benefit Hyperspace will be made upstream, and Gopherdon wil
 
 To develop Gopherdon, you'll need the following tools and packages:
 
-* Node.js 8 or later
-* (Optional) Visual Studio Code
+-   Node.js v10 or later
 
 ### Installing dependencies
 
@@ -45,27 +44,29 @@ git merge upstream/master
 
 If any conflicts arise, check the files and review the changes before fully merging. After merging, make a pull request to the `master` branch to apply the upstream changes.
 
-> Note: Do **not** delete the upstream branch. This is necesary to get changes from Hyperspace and to submit new changes to Hyperspace itself.
+> Note: Do **not** delete the upstream branch. This is necessary to get changes from Hyperspace and to submit new changes to Hyperspace itself.
 
 ### Testing changes
 
-Before testing Gopherdon, make the following change in `config.json`:
+Run any of the following scripts to test:
 
-```json
-    "location": "https://localhost:3000"
-```
+-   `npm start` - Starts a local server hosted at https://localhost:3000.
+-   `npm run electrify` - Builds a copy of the source code and then runs the app through Electron. Ensure that the `location` key in `config.json` points to `"desktop"` before running this.
+-   `npm run electrify-nobuild` - Similar to `electrify` but doesn't build the project before running.
 
-This is necessary to test Gopherdon locally and will need to be reverted after testing or before releasing to `master`/`release`.
+The location key in config.json can take the following values during testing:
+
+- https://localhost:3000: Most suitable for running npm start or running via react-scripts.
+- desktop: Most suitable for when testing the desktop application.
+
+> Note: Gopherdon v1.1.0-beta3 and older versions require the location field to be changed to "https://localhost:3000" before running.
+
 
 To run a development version of Gopherdon, either run the `start` task from VS Code or run the following in the terminal:
 
-```npm
+```
 npm start
 ```
-
-The site will be hosted at `https://localhost:3000`, where you can sign in and test Gopherdon.
-
-Alternatively, if you are testing the desktop version of Gopherdon, run `npm run electrify` (or `npm run electrify`, if you don't want to make another production build). Gopherdon will open in a window where you can sign in and test Gopherdon with your Mastodon account. You'll be logged in automatically if you've signed in before.
 
 ### Building a release
 

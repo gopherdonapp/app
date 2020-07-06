@@ -541,14 +541,13 @@ export class Post extends React.Component<any, IPostState> {
         }
     }
 
+    /**
+     * Get the post's URL
+     * @param post The post to get the URL from
+     * @returns A string containing the post's URI
+     */
     getMastodonUrl(post: Status) {
-        let url = "";
-        if (post.reblog) {
-            url = post.reblog.uri;
-        } else {
-            url = post.uri;
-        }
-        return url;
+        return post.reblog ? post.reblog.uri : post.uri;
     }
 
     /**
@@ -763,24 +762,12 @@ export class Post extends React.Component<any, IPostState> {
                                 post.reblog ? post.reblog.id : post.id
                             }`}
                         >
-                            <IconButton
-                                href={this.getMastodonUrl(post)}
-                                rel="noreferrer"
-                                target="_blank"
-                            >
-                                <OpenInNewIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <div className={classes.postFlexGrow} />
-                        <div className={classes.postTypeIconDiv}>
-                            {this.showVisibilityIcon(post.visibility)}
-                        </div>
-                    </CardActions>
-                    <Menu
-                        id="postmenu"
-                        anchorEl={document.getElementById(`${post.id}_submenu`)}
-                        open={this.state.menuIsOpen}
-                        onClose={() => this.togglePostMenu()}
+                            <ForumIcon />
+                        </LinkableIconButton>
+                    </Tooltip>
+                    <Tooltip
+                        className={classes.desktopOnly}
+                        title="Open in Web"
                     >
                         <IconButton
                             href={this.getMastodonUrl(post)}
@@ -824,46 +811,53 @@ export class Post extends React.Component<any, IPostState> {
                     {post.reblog ? (
                         <div className={classes.postReblogMenu}>
                             <LinkableMenuItem
+                                to={`/profile/${post.reblog.account.id}`}
+                            >
+                                View author profile
+                            </LinkableMenuItem>
+                            <LinkableMenuItem
                                 to={`/profile/${post.account.id}`}
                             >
-                                View profile
+                                View reblogger profile
                             </LinkableMenuItem>
-                        )}
-                        <div className={classes.mobileOnly}>
+                        </div>
+                    ) : (
+                        <LinkableMenuItem to={`/profile/${post.account.id}`}>
+                            View profile
+                        </LinkableMenuItem>
+                    )}
+                    <div className={classes.mobileOnly}>
+                        <Divider />
+                        <LinkableMenuItem
+                            to={`/conversation/${
+                                post.reblog ? post.reblog.id : post.id
+                            }`}
+                        >
+                            View thread
+                        </LinkableMenuItem>
+                        <MenuItem
+                            component="a"
+                            href={this.getMastodonUrl(post)}
+                            rel="noreferrer"
+                            target="_blank"
+                        >
+                            Open in Web
+                        </MenuItem>
+                    </div>
+                    {this.state.myAccount &&
+                    post.account.id === this.state.myAccount ? (
+                        <div>
                             <Divider />
-                            <LinkableMenuItem
-                                to={`/conversation/${
-                                    post.reblog ? post.reblog.id : post.id
-                                }`}
-                            >
-                                View thread
-                            </LinkableMenuItem>
                             <MenuItem
-                                component="a"
-                                href={this.getMastodonUrl(post)}
-                                rel="noreferrer"
-                                target="_blank"
+                                onClick={() => this.togglePostDeleteDialog()}
                             >
-                                Open in Web
+                                Delete
                             </MenuItem>
                         </div>
-                        {this.state.myAccount &&
-                        post.account.id === this.state.myAccount ? (
-                            <div>
-                                <Divider />
-                                <MenuItem
-                                    onClick={() =>
-                                        this.togglePostDeleteDialog()
-                                    }
-                                >
-                                    Delete
-                                </MenuItem>
-                            </div>
-                        ) : null}
-                        {this.showDeleteDialog()}
-                    </Menu>
-                </Card>
-            </Zoom>
+                    ) : null}
+                    {this.showDeleteDialog()}
+                </Menu>
+            </Card>
         );
     }
 }

@@ -18,25 +18,42 @@ import {
     DialogContent,
     DialogContentText,
     DialogActions,
-    Tooltip
+    Tooltip,
+    Menu,
+    MenuItem
 } from "@material-ui/core";
+
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import PersonIcon from "@material-ui/icons/Person";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import PersonRemoveIcon from "mdi-material-ui/AccountMinus";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { styles } from "./PageLayout.styles";
-import { LinkableIconButton, LinkableAvatar } from "../interfaces/overrides";
+import {
+    LinkableIconButton,
+    LinkableAvatar,
+    LinkableMenuItem
+} from "../interfaces/overrides";
 import ForumIcon from "@material-ui/icons/Forum";
 import ReplyIcon from "@material-ui/icons/Reply";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+
 import Mastodon from "megalodon";
 import { Notification } from "../types/Notification";
 import { Account } from "../types/Account";
+import { Relationship } from "../types/Relationship";
 import { withSnackbar } from "notistack";
 import { Dictionary } from "../interfaces/utils";
 import { linkablePath } from "../utilities/desktop";
 
+/**
+ * The state interface for the notifications page.
+ */
 interface INotificationsPageState {
+    /**
+     * The list of notifications, if it exists.
+     */
     notifications?: [Notification];
 
     /**
@@ -48,23 +65,61 @@ interface INotificationsPageState {
      * Whether the view is still loading.
      */
     viewIsLoading: boolean;
+
+    /**
+     * Whether the view has loaded.
+     */
     viewDidLoad?: boolean;
+
+    /**
+     * Whether the view has loaded but in error.
+     */
     viewDidError?: boolean;
+
+    /**
+     * The error code for an errored state, if possible.
+     */
     viewDidErrorCode?: string;
+
+    /**
+     * Whether the delete confirmation dialog should be open.
+     */
     deleteDialogOpen: boolean;
+
+    /**
+     * Whether the menu should be open on smaller devices.
+     */
+    mobileMenuOpen: Dictionary<boolean>;
 }
 
+/**
+ * The notifications page.
+ */
 class NotificationsPage extends Component<any, INotificationsPageState> {
+    /**
+     * The Mastodon object to perform notification operations on.
+     */
     client: Mastodon;
+
+    /**
+     * The stream listener for tuning in to notifications.
+     */
     streamListener: any;
 
+    /**
+     * Construct the notifications page.
+     * @param props The properties to pass in
+     */
     constructor(props: any) {
         super(props);
+
+        // Create the Mastodon object.
         this.client = new Mastodon(
             localStorage.getItem("access_token") as string,
             localStorage.getItem("baseurl") + "/api/v1"
         );
 
+        // Initialize the state.
         this.state = {
             viewIsLoading: true,
             deleteDialogOpen: false,
@@ -122,10 +177,17 @@ class NotificationsPage extends Component<any, INotificationsPageState> {
         }
     }
 
+    /**
+     * Perform post-mount tasks.
+     */
     componentDidMount() {
+        // Start listening for new notifications after fetching.
         this.streamNotifications();
     }
 
+    /**
+     * Set up a stream listener and keep updating notifications.
+     */
     streamNotifications() {
         this.streamListener = this.client.stream("/streaming/user");
 
@@ -138,10 +200,25 @@ class NotificationsPage extends Component<any, INotificationsPageState> {
         });
     }
 
+    /**
+     * Toggle the state of the delete dialog.
+     */
     toggleDeleteDialog() {
         this.setState({ deleteDialogOpen: !this.state.deleteDialogOpen });
     }
 
+    toggleMobileMenu(id: string) {
+        let mobileMenuOpen = this.state.mobileMenuOpen;
+        mobileMenuOpen[id] = !mobileMenuOpen[id];
+        this.setState({ mobileMenuOpen });
+    }
+
+    /**
+     * Strip HTML content from a string containing HTML content.
+     *
+     * @param text The sanitized HTML to strip
+     * @returns A string containing the contents of the sanitized HTML
+     */
     removeHTMLContent(text: string) {
         const div = document.createElement("div");
         div.innerHTML = text;
@@ -151,6 +228,10 @@ class NotificationsPage extends Component<any, INotificationsPageState> {
         return innerContent;
     }
 
+    /**
+     * Remove a notification from the server.
+     * @param id The notification's ID
+     */
     removeNotification(id: string) {
         this.client
             .post(`/notifications/${id}/dismiss`)
@@ -182,6 +263,9 @@ class NotificationsPage extends Component<any, INotificationsPageState> {
             });
     }
 
+    /**
+     * Purge all notifications from the server.
+     */
     removeAllNotifications() {
         this.client
             .post("/notifications/clear")
@@ -199,6 +283,10 @@ class NotificationsPage extends Component<any, INotificationsPageState> {
             });
     }
 
+    /**
+     * Render a single notification unit to be used in a list
+     * @param notif The notification to work with.
+     */
     createNotification(notif: Notification) {
         const { classes } = this.props;
         let primary = "";
@@ -443,28 +531,14 @@ class NotificationsPage extends Component<any, INotificationsPageState> {
                             <DeleteIcon />
                         </IconButton>
                     </Tooltip>
-                </ListItemSecondaryAction>
-            </ListItem>
+                </div>
+            </>
         );
-    }
+    };
 
-    followMember(acct: Account) {
-        this.client
-            .post(`/accounts/${acct.id}/follow`)
-            .then((resp: any) => {
-                this.props.enqueueSnackbar(
-                    "You are now following this account."
-                );
-            })
-            .catch((err: Error) => {
-                this.props.enqueueSnackbar(
-                    "Couldn't follow account: " + err.name,
-                    { variant: "error" }
-                );
-                console.error(err.message);
-            });
-    }
-
+    /**
+     * Render the notification page.
+     */
     render() {
         const { classes } = this.props;
         return (
@@ -495,12 +569,20 @@ class NotificationsPage extends Component<any, INotificationsPageState> {
                             </Paper>
                         </div>
                     ) : (
-                        <div className={classes.pageLayoutEmptyTextConstraints}>
-                            <Typography variant="h4">All clear!</Typography>
+                        <div
+                            className={classes.pageLayoutEmptyTextConstraints}
+                            style={{ textAlign: "center" }}
+                        >
+                            <NotificationsIcon
+                                color="action"
+                                style={{ fontSize: 48 }}
+                            />
+                            <Typography variant="h6">All clear!</Typography>
                             <Typography paragraph>
                                 It looks like you have no notifications. Why not
                                 get the conversation going with a new post?
                             </Typography>
+                            <br />
                         </div>
                     )
                 ) : null}

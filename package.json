@@ -63,7 +63,7 @@
         "build:linux-select-targets": "electron-builder -p 'never' -c ebuild/standard.yml -l "
     },
     "dmg": {
-      "sign": false
+        "sign": false
     },
     "browserslist": [
         ">0.2%",

@@ -324,12 +324,20 @@ export const styles = (theme: Theme) =>
             },
             backgroundColor: theme.palette.primary.main
         },
-        eventCard: {
-            height: "100%",
-            display: "flex",
-            flexDirection: "column"
+        pageLayoutMasonry: {
+            paddingLeft: theme.spacing.unit * 3,
+            paddingRight: theme.spacing.unit * 3
         },
-        eventMedia: {
-            height: 225
+        masonryGrid: {
+            display: "flex",
+            width: "auto"
+        },
+        "my-masonry-grid_column": {
+            // non-standard name fixes react-masonry-css bug :shrug:
+            padding: 5
+        },
+        noTopPaddingMargin: {
+            marginTop: 0,
+            paddingTop: 0
         }
     });

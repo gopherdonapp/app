@@ -96,7 +96,7 @@ export function setUserDefaultTheme(themeName: string) {
 export function createUserDefaults() {
     let defaults: SettingsTemplate = {
         darkModeEnabled: false,
-        systemDecidesDarkMode: false,
+        systemDecidesDarkMode: true,
         enablePushNotifications: true,
         clearNotificationsOnRead: false,
         displayAllOnNotificationBadge: false,

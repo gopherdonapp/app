@@ -8,9 +8,8 @@ import AboutPage from "./pages/About";
 import Settings from "./pages/Settings";
 import { getUserDefaultBool, getUserDefaultTheme } from "./utilities/settings";
 import ProfilePage from "./pages/ProfilePage";
-import HomePage from "./pages/Home";
-import LocalPage from "./pages/Local";
-import PublicPage from "./pages/Public";
+import TimelinePage from "./pages/Timeline";
+import EventsPage from "./pages/Events";
 import Conversation from "./pages/Conversation";
 import NotificationsPage from "./pages/Notifications";
 import AnnouncementsPage from "./pages/Announcements";
@@ -18,10 +17,11 @@ import SearchPage from "./pages/Search";
 import Composer from "./pages/Compose";
 import WelcomePage from "./pages/Welcome";
 import MessagesPage from "./pages/Messages";
-import EventsPage from "./pages/Events";
 import RecommendationsPage from "./pages/Recommendations";
 import Blocked from "./pages/Blocked";
 import You from "./pages/You";
+import RequestsPage from "./pages/Requests";
+import ActivityPage from "./pages/Activity";
 import { withSnackbar } from "notistack";
 import { PrivateRoute } from "./interfaces/overrides";
 import { userLoggedIn } from "./utilities/accounts";
@@ -175,6 +175,8 @@ class App extends Component<any, IAppState> {
                         path="/recommended"
                         component={RecommendationsPage}
                     />
+                    <PrivateRoute path="/requests" component={RequestsPage} />
+                    <PrivateRoute path="/activity" component={ActivityPage} />
                     <PrivateRoute path="/events" component={EventsPage} />
                 </div>
             </MuiThemeProvider>

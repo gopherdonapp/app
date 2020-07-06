@@ -67,9 +67,9 @@ class EventsPage extends Component<any, IEventsState> {
                 event.event.event_instances[0].event_instance.start
             ).calendar();
         } else {
-            `${moment(event.event.first_date).format("MMMM Do")} - ${moment(
-                event.event.last_date
-            ).format("MMMM Do")}`;
+            return `${moment(event.event.first_date).format(
+                "MMMM Do"
+            )} - ${moment(event.event.last_date).format("MMMM Do")}`;
         }
     }
 
@@ -194,14 +194,14 @@ class EventsPage extends Component<any, IEventsState> {
                     <span />
                 )}
                 {this.state.viewLoading ? (
-                  <div style={{ textAlign: "center" }}>
-                      <CircularProgress
-                        className={classes.progress}
-                        color="primary"
-                      />
-                  </div>
+                    <div style={{ textAlign: "center" }}>
+                        <CircularProgress
+                            className={classes.progress}
+                            color="primary"
+                        />
+                    </div>
                 ) : (
-                  <span />
+                    <span />
                 )}
                 <br />
                 <Typography variant={"caption"}>

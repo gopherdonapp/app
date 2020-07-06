@@ -6,7 +6,7 @@
 # excluding the Mac App Store build. For the Mac App Store build, modify the mas.yml file.
 #
 
-appId: net.marquiskurt.hyperspace
+appId: net.marquiskurt.gopherdon
 afterSign: desktop/notarize.js
 directories:
     buildResources: desktop
@@ -32,4 +32,4 @@ linux:
 
 snap:
     confinement: strict
-    summary: The fluffiest client for the fediverse
+    summary: The future of social networking at Goucher

@@ -26,11 +26,12 @@ import {
     DialogActions,
     Button,
     ListItem,
-    Tooltip
+    Tooltip,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import AnnouncementIcon from "@material-ui/icons/Announcement";
 import MailIcon from "@material-ui/icons/Mail";
 import HomeIcon from "@material-ui/icons/Home";
 import DomainIcon from "@material-ui/icons/Domain";
@@ -46,7 +47,7 @@ import { MultiAccount, UAccount } from "../../types/Account";
 import {
     LinkableListItem,
     LinkableIconButton,
-    LinkableFab
+    LinkableFab,
 } from "../../interfaces/overrides";
 import Mastodon from "megalodon";
 import { Notification } from "../../types/Notification";
@@ -56,12 +57,13 @@ import { getConfig, getUserDefaultBool } from "../../utilities/settings";
 import {
     isDesktopApp,
     isDarwinApp,
-    getElectronApp
+    getElectronApp,
+    linkablePath,
 } from "../../utilities/desktop";
 import { Config } from "../../types/Config";
 import {
     getAccountRegistry,
-    removeAccountFromRegistry
+    removeAccountFromRegistry,
 } from "../../utilities/accounts";
 
 interface IAppLayoutState {
@@ -91,7 +93,7 @@ export class AppLayout extends Component<any, IAppLayoutState> {
             drawerOpenOnMobile: false,
             acctMenuOpen: false,
             notificationCount: 0,
-            logOutOpen: false
+            logOutOpen: false,
         };
 
         this.toggleDrawerOnMobile = this.toggleDrawerOnMobile.bind(this);
@@ -110,7 +112,7 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                     brandName: config.branding
                         ? config.branding.name
                         : "Hyperspace",
-                    developerMode: config.developer
+                    developerMode: config.developer,
                 });
             }
         });
@@ -223,7 +225,7 @@ export class AppLayout extends Component<any, IAppLayoutState> {
 
     toggleDrawerOnMobile() {
         this.setState({
-            drawerOpenOnMobile: !this.state.drawerOpenOnMobile
+            drawerOpenOnMobile: !this.state.drawerOpenOnMobile,
         });
     }
 
@@ -232,9 +234,12 @@ export class AppLayout extends Component<any, IAppLayoutState> {
     }
 
     searchForQuery(what: string) {
-        window.location.href = isDesktopApp()
-            ? "hyperspace://hyperspace/app/index.html#/search?query=" + what
-            : "/#/search?query=" + what;
+        what = what.replace(/^#/g, "tag:");
+        // console.log(what);
+        window.location.href = linkablePath("/#/search?query=" + what);
+        // window.location.href = isDesktopApp()
+        //     ? "hyperspace://hyperspace/app/index.html#/search?query=" + what
+        //     : "/#/search?query=" + what;
     }
 
     logOutAndRestart() {
@@ -252,7 +257,7 @@ export class AppLayout extends Component<any, IAppLayoutState> {
             });
 
             let items = ["login", "account", "baseurl", "access_token"];
-            items.forEach(entry => {
+            items.forEach((entry) => {
                 localStorage.removeItem(entry);
             });
 
@@ -401,6 +406,16 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                         <ListSubheader>Account</ListSubheader>
                         <LinkableListItem
                             button
+                            key="announcements-mobile"
+                            to="/announcements"
+                        >
+                            <ListItemIcon>
+                                <AnnouncementIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Announcements" />
+                        </LinkableListItem>
+                        <LinkableListItem
+                            button
                             key="notifications-mobile"
                             to="/notifications"
                         >
@@ -493,9 +508,9 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                                     placeholder="Search..."
                                     classes={{
                                         root: classes.appBarSearchInputRoot,
-                                        input: classes.appBarSearchInputInput
+                                        input: classes.appBarSearchInputInput,
                                     }}
-                                    onKeyUp={event => {
+                                    onKeyUp={(event) => {
                                         if (event.keyCode === 13) {
                                             this.searchForQuery(
                                                 event.currentTarget.value
@@ -506,6 +521,14 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                             </div>
                             <div className={classes.appBarFlexGrow} />
                             <div className={classes.appBarActionButtons}>
+                                <Tooltip title="Announcements">
+                                    <LinkableIconButton
+                                        to="/announcements"
+                                        color="inherit"
+                                    >
+                                        <AnnouncementIcon />
+                                    </LinkableIconButton>
+                                </Tooltip>
                                 <Tooltip title="Notifications">
                                     <LinkableIconButton
                                         color="inherit"
@@ -544,7 +567,9 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                                             }
                                             alt="You"
                                             src={
-                                                this.state.currentUser
+                                                this.props.avatarURL
+                                                    ? this.props.avatarURL
+                                                    : this.state.currentUser
                                                     ? this.state.currentUser
                                                           .avatar_static
                                                     : ""
@@ -567,6 +592,7 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                                         <div>
                                             <LinkableListItem
                                                 button={true}
+                                                onClick={this.toggleAcctMenu}
                                                 to={`/profile/${
                                                     this.state.currentUser
                                                         ? this.state.currentUser
@@ -578,8 +604,11 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                                                     <Avatar
                                                         alt="You"
                                                         src={
-                                                            this.state
-                                                                .currentUser
+                                                            this.props.avatarURL
+                                                                ? this.props
+                                                                      .avatarURL
+                                                                : this.state
+                                                                      .currentUser
                                                                 ? this.state
                                                                       .currentUser
                                                                       .avatar_static
@@ -611,12 +640,23 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                                             <Divider />
                                             <LinkableListItem
                                                 button={true}
+                                                onClick={this.toggleAcctMenu}
                                                 to={"/you"}
                                             >
                                                 <ListItemText>
                                                     Edit profile
                                                 </ListItemText>
                                             </LinkableListItem>
+                                            <LinkableListItem
+                                                button={true}
+                                                onClick={this.toggleAcctMenu}
+                                                to={"/requests"}
+                                            >
+                                                <ListItemText>
+                                                    Manage follow requests
+                                                </ListItemText>
+                                            </LinkableListItem>
+                                            <Divider />
                                             <LinkableListItem
                                                 to={"/welcome"}
                                                 button={true}
@@ -659,7 +699,7 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                                 classes={{
                                     paper: this.titlebar()
                                         ? classes.drawerPaperWithTitleAndAppBar
-                                        : classes.drawerPaperWithAppBar
+                                        : classes.drawerPaperWithAppBar,
                                 }}
                                 variant="permanent"
                                 open

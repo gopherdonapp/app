@@ -31,6 +31,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import AnnouncementIcon from "@material-ui/icons/Announcement";
 import MailIcon from "@material-ui/icons/Mail";
 import HomeIcon from "@material-ui/icons/Home";
 import DomainIcon from "@material-ui/icons/Domain";
@@ -57,7 +58,8 @@ import { getConfig, getUserDefaultBool } from "../../utilities/settings";
 import {
     isDesktopApp,
     isDarwinApp,
-    getElectronApp
+    getElectronApp,
+    linkablePath
 } from "../../utilities/desktop";
 import { Config } from "../../types/Config";
 import {
@@ -233,9 +235,12 @@ export class AppLayout extends Component<any, IAppLayoutState> {
     }
 
     searchForQuery(what: string) {
-        window.location.href = isDesktopApp()
-            ? "hyperspace://hyperspace/app/index.html#/search?query=" + what
-            : "/#/search?query=" + what;
+        what = what.replace(/^#/g, "tag:");
+        // console.log(what);
+        window.location.href = linkablePath("/#/search?query=" + what);
+        // window.location.href = isDesktopApp()
+        //     ? "hyperspace://hyperspace/app/index.html#/search?query=" + what
+        //     : "/#/search?query=" + what;
     }
 
     logOutAndRestart() {
@@ -402,6 +407,16 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                         <ListSubheader>Account</ListSubheader>
                         <LinkableListItem
                             button
+                            key="announcements-mobile"
+                            to="/announcements"
+                        >
+                            <ListItemIcon>
+                                <AnnouncementIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Announcements" />
+                        </LinkableListItem>
+                        <LinkableListItem
+                            button
                             key="notifications-mobile"
                             to="/notifications"
                         >
@@ -513,6 +528,14 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                             </div>
                             <div className={classes.appBarFlexGrow} />
                             <div className={classes.appBarActionButtons}>
+                                <Tooltip title="Announcements">
+                                    <LinkableIconButton
+                                        to="/announcements"
+                                        color="inherit"
+                                    >
+                                        <AnnouncementIcon />
+                                    </LinkableIconButton>
+                                </Tooltip>
                                 <Tooltip title="Notifications">
                                     <LinkableIconButton
                                         color="inherit"
@@ -551,7 +574,9 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                                             }
                                             alt="You"
                                             src={
-                                                this.state.currentUser
+                                                this.props.avatarURL
+                                                    ? this.props.avatarURL
+                                                    : this.state.currentUser
                                                     ? this.state.currentUser
                                                           .avatar_static
                                                     : ""
@@ -574,6 +599,7 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                                         <div>
                                             <LinkableListItem
                                                 button={true}
+                                                onClick={this.toggleAcctMenu}
                                                 to={`/profile/${
                                                     this.state.currentUser
                                                         ? this.state.currentUser
@@ -585,8 +611,11 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                                                     <Avatar
                                                         alt="You"
                                                         src={
-                                                            this.state
-                                                                .currentUser
+                                                            this.props.avatarURL
+                                                                ? this.props
+                                                                      .avatarURL
+                                                                : this.state
+                                                                      .currentUser
                                                                 ? this.state
                                                                       .currentUser
                                                                       .avatar_static
@@ -618,12 +647,23 @@ export class AppLayout extends Component<any, IAppLayoutState> {
                                             <Divider />
                                             <LinkableListItem
                                                 button={true}
+                                                onClick={this.toggleAcctMenu}
                                                 to={"/you"}
                                             >
                                                 <ListItemText>
                                                     Edit profile
                                                 </ListItemText>
                                             </LinkableListItem>
+                                            <LinkableListItem
+                                                button={true}
+                                                onClick={this.toggleAcctMenu}
+                                                to={"/requests"}
+                                            >
+                                                <ListItemText>
+                                                    Manage follow requests
+                                                </ListItemText>
+                                            </LinkableListItem>
+                                            <Divider />
                                             <LinkableListItem
                                                 to={"/welcome"}
                                                 button={true}

@@ -8,14 +8,12 @@ The Gopherdon apps are the official means of accessing the Gopherdon network at 
 
 Changes that overall benefit Hyperspace will be made upstream, and Gopherdon will be in-sync with upstream changes from Hyperspace.
 
-## Build instructions
+## Build from source
 
-### Prerequisites
+To build Gopherdon Desktop, you'll need the following tools and packages:
 
-To develop Gopherdon, you'll need the following tools and packages:
-
-* Node.js 8 or later
-* (Optional) Visual Studio Code
+-   Node.js v10 or later
+-   (macOS-only) Xcode 10 or higher
 
 ### Installing dependencies
 
@@ -27,7 +25,7 @@ git clone https://github.com/gopherdonapp/app
 
 Then, in the app directory, run the following command to install all of the package dependencies:
 
-```npm
+```
 npm install
 ```
 
@@ -49,76 +47,205 @@ If any conflicts arise, check the files and review the changes before fully merg
 
 ### Testing changes
 
-Before testing Gopherdon, make the following change in `config.json`:
+Run any of the following scripts to test:
 
-```json
-    "location": "https://localhost:3000"
-```
+-   `npm start` - Starts a local server hosted at https://localhost:3000.
+-   `npm run electron:build` - Builds a copy of the source code and then runs the app through Electron. Ensure that the `location` key in `config.json` points to `"desktop"` before running this.
+-   `npm run electron:prebuilt` - Similar to `electron:build` but doesn't build the project before running.
 
-This is necessary to test Gopherdon locally and will need to be reverted after testing or before releasing to `master`/`release`.
+The `location` key in `config.json` can take the following values during testing:
 
 To run a development version of Gopherdon, either run the `start` task from VS Code or run the following in the terminal:
 
-```npm
-npm start
-```
-
-The site will be hosted at `https://localhost:3000`, where you can sign in and test Gopherdon.
-
-Alternatively, if you are testing the desktop version of Gopherdon, run `npm run electrify` (or `npm run electrify`, if you don't want to make another production build). Gopherdon will open in a window where you can sign in and test Gopherdon with your Mastodon account. You'll be logged in automatically if you've signed in before.
+> Note: Gopherdon Desktop v1.1.0-beta3 and older versions require the location field to be changed to `"https://localhost:3000"` before running.
 
 ### Building a release
 
 To build a release, run the following command:
 
-```npm
-npm build
+```
+npm run build
 ```
 
 The built files will be available under `build` as static files. These files should get hosted to a web server.
 
 If you are aiming to make an update to the official Gopherdon site, just push your changes to either the `master` (unstable) or `release` (stable) branches.
 
-#### Building desktop releases
+#### Building desktop apps
 
 You can run any of the following commands to build a release for the desktop:
 
--   `npm run build-desktop`: Builds the desktop apps for all platforms (eg. Windows, macOS, Linux). Will run `npm run build` before building.
--   `npm run build-desktop-win`: Builds the desktop app for Windows without running `npm run build`.
--   `npm run build-desktop-darwin`: Builds the desktop apps for macOS (eg. disk image, Mac App Store) without running `npm run build`. See the details below for more information on building for macOS.
--   `npm run build-desktop-linux`: Builds the desktop apps for Linux (eg. Debian package, AppImage, and Snap) without running `npm run build`.
--   `npm run build-desktop-linux-select`: Builds the desktop app for Linux without running `npm run build`. _Target is required as a parameter._
+-   `npm run build:desktop-all`: Builds the desktop apps for all platforms (eg. Windows, macOS, Linux). Will run `npm run build` before building.
+-   `npm run build:win`: Builds the desktop app for Windows without running `npm run build`.
+-   `npm run build:mac`: Builds the desktop apps for macOS without running `npm run build`. See the details below for more information on building for macOS.
+-   `npm run build:mas`: Builds the desktop apps for the Mac App Store without running `npm run build`. See the details below for more information on building for macOS.
+-   `npm run build:linux`: Builds the desktop apps for Linux (eg. Debian package, AppImage, and Snap) without running `npm run build`.
+-   `npm run build:linux-select-targets`: Builds the desktop app for Linux without running `npm run build`. _Targets are required as parameters._
 
 The built files will be available under `dist` that can be uploaded to your app distributor or website.
 
-#### Building for macOS
+#### Extra steps for macOS
 
-More recent version of macOS require that the Gopherdon desktop app be both digitally code-signed and notarized (uploaded to Apple to check for malware). Gopherdon includes the tools necessary to automate this process when building the macOS version either by `npm run build-desktop` or by `npm run build-desktop-darwin`.
+The macOS builds of Gopherdon Desktop require a bit more effort and resources to build and distribute accordingly. The following is a quick guide to building Hyperspace Desktop for macOS and for the Mac App Store.
 
-Make sure you have your provisioning profiles for the Mac App Store (`embedded.provisionprofile`) and standard distribution (`nonmas.provisionprofile`) in the `desktop` directory. These provision profiles can be obtained through Apple Developer. You'll also need to create entitlements files in the `desktop` directory that list the following entitlements for your app:
+##### Gather your tools
 
--   `com.apple.security.app-sandbox`
--   `com.apple.security.files.downloads.read-write`
--   `com.apple.security.files.user-selected.read-write`
--   `com.apple.security.allow-unsigned-executable-memory`
--   `com.apple.security.network.client`
+To create a code-signed and notarized version of Gopherdon Desktop, you'll need to acquire some provisioning profiles and certificates from a valid Apple Developer account.
 
-For the child ones (inherited `entitlements.mas.inherit.plist`):
+For certificates, make sure your Mac has the following certificates installed:
 
--   `com.apple.security.app-sandbox`
--   `com.apple.security.inherit`
--   `com.apple.security.files.downloads.read-write`
--   `com.apple.security.files.user-selected.read-write`
--   `com.apple.security.allow-unsigned-executable-memory`
--   `com.apple.security.network.client`
+-   3rd Party Mac Developer Application
+-   3rd Party Mac Developer Installer
+-   Developer ID Application
+-   Developer ID Installer
+-   Mac Developer
 
-> ⚠️ Note that the inherited permissions are the same as that of the parent. This is due to an issue where the hardened runtime fails to pass down the inherited properties (see [electron/electron#20560](https://github.com/electron/electron/issues/20560#issuecomment-546110018)). This might change in future versions of macOS.
+The easiest way to handle this is by opening Xcode and going to **Preferences &rsaquo; Accounts** and create the certificates from "Manage Certificates".
 
-It is also recommended to add the `com.apple.security.applications-groups` entry with your bundle's identifier. You'll also need to create an `info.plist` in the `desktop` directory containing the team identifier and application identifier and install the developer certificates on the Mac you plan to build from.
+You'll also need to [create a provisioning profile for **Mac App Store** distribution](https://developer.apple.com/account/resources/profiles/add) and save it to the `desktop` folder as `embedded.provisonprofile`.
 
-You'll also want to modify the `notarize.js` file to change the details from the default to your App Store Connect account details and app identifier.
+##### Create your entitlements files
 
-> ⚠️ **Warning**: The package.json file also includes the `build-desktop-darwin-nosign` script. This script is specifically intended for automated systems that cannot run notarization (Azure Pipelines, GitHub Actions, etc.). _Do not use this command to build production-ready versions of Hyperspace_.
+You'll also need to create the entitlements files in the `desktop` directory that declares the permissions for Hyperspace Desktop. Replace `TEAM_ID` with the appropriate Apple Developer information and `BUNDLE_ID` with the bundle ID of your app.
+
+###### entitlements.mac.plist
+
+```plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+    <true/>
+    <key>com.apple.security.network.client</key>
+    <true/>
+    <key>com.apple.security.files.user-selected.read-write</key>
+    <true/>
+  </dict>
+</plist>
+```
+
+###### entitlements.mas.plist
+
+```plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.cs.allow-jit</key>
+	<true/>
+	<key>com.apple.security.network.client</key>
+	<true/>
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	<key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+	<true/>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>TEAM_ID.BUNDLE_ID</string>
+	</array>
+	<key>com.apple.security.files.user-selected.read-only</key>
+	<true/>
+	<key>com.apple.security.files.user-selected.read-write</key>
+	<true/>
+</dict>
+</plist>
+```
+
+###### entitlements.mas.inherit.plist
+
+```plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	<key>com.apple.security.inherit</key>
+	<true/>
+	<key>com.apple.security.cs.allow-jit</key>
+	<true/>
+	<key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+	<true/>
+	</dict>
+</plist>
+```
+
+###### entitlements.mas.loginhelper.plist
+
+```plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>com.apple.security.app-sandbox</key>
+    <true/>
+  </dict>
+</plist>
+```
+
+###### info.plist
+
+```plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ElectronTeamID</key>
+	<string>TEAM_ID</string>
+	<key>com.apple.developer.team-identifier</key>
+	<string>TEAM_ID</string>
+	<key>com.apple.application-identifier</key>
+	<string>TEAM_ID.BUNDLE_ID</string>
+</dict>
+</plist>
+```
+
+##### Edit `notarize.js`
+
+You'll also need to edit `notarize.js` in the `desktop` directory. Replace `<TEAM_ID>`, `<BUNDLE_ID>`, and `<APPLE_DEVELOPER_EMAIL>` with the appropriate information from the app and your account from Apple Developer.
+
+```js
+// notarize.js
+// Script to notarize Hyperspace for macOS
+// © 2019 Hyperspace developers. Licensed under Apache 2.0.
+
+const { notarize } = require("electron-notarize");
+
+// This is pulled from the Apple Keychain. To set this up,
+// follow the instructions provided here:
+// https://github.com/electron/electron-notarize#safety-when-using-appleidpassword
+const password = `@keychain:AC_PASSWORD`;
+
+exports.default = async function notarizing(context) {
+    const { electronPlatformName, appOutDir } = context;
+    if (electronPlatformName !== "darwin") {
+        return;
+    }
+
+    console.log("Notarizing Hyperspace...");
+
+    const appName = context.packager.appInfo.productFilename;
+
+    return await notarize({
+        appBundleId: "<BUNDLE_ID>",
+        appPath: `${appOutDir}/${appName}.app`,
+        appleId: "<APPLE_DEVELOPER_EMAIL>",
+        appleIdPassword: password,
+        ascProvider: "<TEAM_ID>"
+    });
+};
+```
+
+Note that the password is pulled from your keychain. You'll need to create an app password and store it in your keychain as `AC_PASSWORD`.
+
+##### Build the apps
+
+Run any of the following commands to build Hyperspace Desktop for the Mac:
+
+-   `npm run build:mac` - Builds the macOS app in a DMG container.
+-   `npm run build:mac-unsigned` - Similar to `build:mac`, but skips code signing and notarization. **Use only for CI or in situations where code signing and notarization is not available.**
+-   `npm run build:mas` - Builds the Mac App Store package.
 
 ## Licensing and Credits
 

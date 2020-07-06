@@ -98,6 +98,30 @@ class Composer extends Component<any, IComposerState> {
                 remainingChars: 500 - text.length
             });
         });
+
+        // Attach the paste listener to listen for the clipboard and upload media
+        // if possible.
+        window.addEventListener("paste", (evt: Event) => {
+            let thePasteEvent = evt as ClipboardEvent;
+            let fileList: File[] = [];
+            if (thePasteEvent.clipboardData != null) {
+                let clipitems = thePasteEvent.clipboardData.items;
+                if (clipitems !== undefined) {
+                    for (let i = 0; i < clipitems.length; i++) {
+                        if (clipitems[i].type.indexOf("image") !== -1) {
+                            let clipfile = clipitems[i].getAsFile();
+                            if (clipfile != null) {
+                                fileList.push(clipfile);
+                            }
+                        }
+                    }
+
+                    if (fileList.length > 0) {
+                        this.uploadMedia(fileList);
+                    }
+                }
+            }
+        });
     }
 
     componentWillReceiveProps(props: any) {
@@ -201,9 +225,9 @@ class Composer extends Component<any, IComposerState> {
     getOnlyMediaIds() {
         let ids: string[] = [];
         if (this.state.attachments) {
-            this.state.attachments.map((attachment: Attachment) => {
-                ids.push(attachment.id);
-            });
+            return this.state.attachments.map(
+                (attachment: Attachment) => attachment.id
+            );
         }
         return ids;
     }
@@ -282,7 +306,7 @@ class Composer extends Component<any, IComposerState> {
             this.setState({
                 poll: poll
             });
-        } else if (this.state.poll && this.state.poll.options.length == 4) {
+        } else if (this.state.poll && this.state.poll.options.length === 4) {
             this.props.enqueueSnackbar(
                 "You've reached the options limit in your poll.",
                 { variant: "error" }

@@ -13,13 +13,13 @@ import LocalPage from "./pages/Local";
 import PublicPage from "./pages/Public";
 import Conversation from "./pages/Conversation";
 import NotificationsPage from "./pages/Notifications";
+import AnnouncementsPage from "./pages/Announcements";
 import SearchPage from "./pages/Search";
 import Composer from "./pages/Compose";
 import WelcomePage from "./pages/Welcome";
 import MessagesPage from "./pages/Messages";
 import EventsPage from "./pages/Events";
 import RecommendationsPage from "./pages/Recommendations";
-import Missingno from "./pages/Missingno";
 import Blocked from "./pages/Blocked";
 import You from "./pages/You";
 import { withSnackbar } from "notistack";
@@ -31,6 +31,7 @@ let theme = setHyperspaceTheme(getUserDefaultTheme());
 interface IAppState {
     theme: any;
     showLayout: boolean;
+    avatarURL?: string;
 }
 
 class App extends Component<any, IAppState> {
@@ -45,6 +46,7 @@ class App extends Component<any, IAppState> {
             showLayout:
                 userLoggedIn() && !window.location.hash.includes("#/welcome")
         };
+        this.setAvatarURL = this.setAvatarURL.bind(this);
     }
 
     componentWillMount() {
@@ -86,9 +88,13 @@ class App extends Component<any, IAppState> {
         }
     }
 
-    render() {
-        const { classes } = this.props;
+    setAvatarURL(avatarURL: string) {
+        this.setState({
+            avatarURL
+        });
+    }
 
+    render() {
         this.removeBodyBackground();
 
         return (
@@ -96,12 +102,55 @@ class App extends Component<any, IAppState> {
                 <CssBaseline />
                 <Route path="/welcome" component={WelcomePage} />
                 <div>
-                    {this.state.showLayout ? <AppLayout /> : null}
-                    <PrivateRoute exact path="/" component={HomePage} />
-                    <PrivateRoute path="/home" component={HomePage} />
-                    <PrivateRoute path="/local" component={LocalPage} />
-                    <PrivateRoute path="/public" component={PublicPage} />
+                    {this.state.showLayout ? (
+                        <AppLayout avatarURL={this.state.avatarURL} />
+                    ) : null}
+                    <PrivateRoute
+                        exact
+                        path="/"
+                        render={(props: any) => (
+                            <TimelinePage
+                                {...props}
+                                stream="/streaming/user"
+                                timeline="/timelines/home"
+                            />
+                        )}
+                    />
+                    <PrivateRoute
+                        path="/home"
+                        render={(props: any) => (
+                            <TimelinePage
+                                {...props}
+                                stream="/streaming/user"
+                                timeline="/timelines/home"
+                            />
+                        )}
+                    />
+                    <PrivateRoute
+                        path="/local"
+                        render={(props: any) => (
+                            <TimelinePage
+                                {...props}
+                                stream="/streaming/public/local"
+                                timeline="/timelines/public?local=true"
+                            />
+                        )}
+                    />
+                    <PrivateRoute
+                        path="/public"
+                        render={(props: any) => (
+                            <TimelinePage
+                                {...props}
+                                stream="/streaming/public"
+                                timeline="/timelines/public"
+                            />
+                        )}
+                    />
                     <PrivateRoute path="/messages" component={MessagesPage} />
+                    <PrivateRoute
+                        path="/announcements"
+                        component={AnnouncementsPage}
+                    />
                     <PrivateRoute
                         path="/notifications"
                         component={NotificationsPage}
@@ -117,7 +166,9 @@ class App extends Component<any, IAppState> {
                     <PrivateRoute path="/search" component={SearchPage} />
                     <PrivateRoute path="/settings" component={Settings} />
                     <PrivateRoute path="/blocked" component={Blocked} />
-                    <PrivateRoute path="/you" component={You} />
+                    <PrivateRoute path="/you">
+                        <You onAvatarUpdate={this.setAvatarURL} />
+                    </PrivateRoute>
                     <PrivateRoute path="/about" component={AboutPage} />
                     <PrivateRoute path="/compose" component={Composer} />
                     <PrivateRoute

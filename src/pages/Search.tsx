@@ -6,7 +6,6 @@ import {
     ListSubheader,
     ListItemSecondaryAction,
     ListItemAvatar,
-    Avatar,
     Paper,
     withStyles,
     Typography,
@@ -14,13 +13,13 @@ import {
     Tooltip,
     IconButton
 } from "@material-ui/core";
-import PersonIcon from "@material-ui/icons/Person";
+
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { styles } from "./PageLayout.styles";
 import { LinkableIconButton, LinkableAvatar } from "../interfaces/overrides";
 import Mastodon from "megalodon";
-import { parse as parseParams, ParsedQuery } from "query-string";
+import { parse as parseParams } from "query-string";
 import { Results } from "../types/Search";
 import { withSnackbar } from "notistack";
 import Post from "../components/Post";
@@ -81,35 +80,23 @@ class SearchPage extends Component<any, ISearchPageState> {
         }
     }
 
-    runQueryCheck(newLocation?: string): ParsedQuery {
-        let searchParams = "";
-        if (newLocation !== undefined && typeof newLocation === "string") {
-            searchParams = newLocation.replace("#/search", "");
-        } else {
-            searchParams = location.hash.replace("#/search", "");
-        }
-        return parseParams(searchParams);
-    }
-
     getQueryAndType(props: any) {
-        let newSearch = this.runQueryCheck(props.location);
-        let query: string | string[];
+        const { search }: { search: string } = props.location;
+        let newSearch = parseParams(search);
+        let query: string | string[] = "";
         let type;
 
         if (newSearch.query) {
-            if (newSearch.query.toString().startsWith("tag:")) {
+            if (search.includes("tag:")) {
                 type = "tag";
-                query = newSearch.query.toString().replace("tag:", "");
-            } else {
-                query = newSearch.query;
             }
-        } else {
-            query = "";
+            query = newSearch.query.toString().replace("tag:", "");
         }
 
         if (newSearch.type && newSearch.type !== undefined) {
             type = newSearch.type;
         }
+
         return {
             query: query,
             type: type
@@ -152,14 +139,11 @@ class SearchPage extends Component<any, ISearchPageState> {
                 let tagResults: [Status] = resp.data;
                 this.setState({
                     tagResults,
-                    viewDidLoad: true,
-                    viewIsLoading: false
+                    viewDidLoad: true
                 });
-                console.log(this.state.tagResults);
             })
             .catch((err: Error) => {
                 this.setState({
-                    viewIsLoading: false,
                     viewDidError: true,
                     viewDidErrorCode: err.message
                 });
@@ -168,6 +152,9 @@ class SearchPage extends Component<any, ISearchPageState> {
                     `Couldn't search for posts with tag ${this.state.query}: ${err.name}`,
                     { variant: "error" }
                 );
+            })
+            .finally(() => {
+                this.setState({ viewIsLoading: false });
             });
     }
 

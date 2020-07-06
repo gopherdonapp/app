@@ -16,6 +16,7 @@ import filedialog from "file-dialog";
 
 interface IYouProps extends withSnackbarProps {
     classes: any;
+    onAvatarUpdate: Function;
 }
 
 interface IYouState {
@@ -74,7 +75,7 @@ class You extends Component<IYouProps, IYouState> {
 
     getAccount() {
         let acct = localStorage.getItem("account");
-        console.log(acct);
+        // console.log(acct);
         if (acct) {
             return JSON.parse(acct);
         }
@@ -105,6 +106,9 @@ class You extends Component<IYouProps, IYouState> {
                             this.props.closeSnackbar("persistAvatar");
                             this.props.enqueueSnackbar(
                                 "Avatar updated successfully."
+                            );
+                            this.props.onAvatarUpdate(
+                                currentAccount.avatar_static
                             );
                         })
                         .catch((err: Error) => {
